@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WikiTestApp</string>
+    <string name="wiki_title">Википедия тест</string>
+</resources>
