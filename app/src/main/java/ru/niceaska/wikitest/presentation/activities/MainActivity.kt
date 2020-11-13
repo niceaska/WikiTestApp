@@ -6,17 +6,45 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import ru.niceaska.wikitest.MyApp
 import ru.niceaska.wikitest.R
+import ru.niceaska.wikitest.presentation.ViewModelFactory
+import ru.niceaska.wikitest.presentation.fragments.ListFragment
+import ru.niceaska.wikitest.presentation.viewmodels.MainViewModel
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var viewModel: MainViewModel
+
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        (applicationContext as? MyApp)?.initListComponent()?.inject(this)
+
+        viewModel = ViewModelProvider(this, factory)
+            .get(MainViewModel::class.java)
+
         initTitle();
+        initObservers()
+
+
+    }
+
+    private fun initObservers() {
+        viewModel.placesList.observe(this, (Observer { list ->
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, ListFragment.newInstance(list))
+                .commit()
+        }))
     }
 
     override fun onResume() {
@@ -34,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
             && grantResults[1] == PackageManager.PERMISSION_GRANTED
         ) {
-            geoViewModel.startLocationService()
+            viewModel.fetchData()
         } else {
             finish()
         }
@@ -54,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         if (checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
             || checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         ) {
-
+            viewModel.fetchData()
         } else {
             requestPermission()
         }

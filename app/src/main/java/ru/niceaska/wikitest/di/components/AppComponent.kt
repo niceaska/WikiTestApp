@@ -7,9 +7,10 @@ import ru.niceaska.wikitest.di.modules.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(NetworkModule::class))
+@Component(modules = [NetworkModule::class])
 interface AppComponent {
 
+    fun featureComp(): FeatureComponent
     @Component.Builder
     interface Builder {
         fun build(): AppComponent
