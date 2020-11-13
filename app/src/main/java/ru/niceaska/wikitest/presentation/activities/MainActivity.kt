@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import ru.niceaska.wikitest.MyApp
@@ -20,7 +21,7 @@ import ru.niceaska.wikitest.presentation.viewmodels.MainViewModel
 import ru.niceaska.wikitest.presentation.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), ImageTitlesViewer {
+class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var factory: ViewModelFactory
@@ -82,6 +83,11 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer {
         (applicationContext as? MyApp)?.destroyListComponent()
     }
 
+    override fun onRefresh() {
+        isSavedState = false
+        viewModel.fetchData(true)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -92,7 +98,7 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
             && grantResults[1] == PackageManager.PERMISSION_GRANTED
         ) {
-            viewModel.fetchData()
+            viewModel.fetchData(false)
         } else {
             finish()
         }
@@ -136,7 +142,7 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer {
         if (checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
             || checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         ) {
-            viewModel.fetchData()
+            viewModel.fetchData(false)
         } else {
             requestPermission()
         }
