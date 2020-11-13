@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * Вложенная сущность запроса для списка статьей по координатам
+ * Вложенная сущность запроса для списка статей по координатам
  *
  * @constructor
- * @property queries лист с данными - списком статьей
+ * @property queries лист с данными - списком статей
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WikiGeoPageBody @JsonCreator constructor(

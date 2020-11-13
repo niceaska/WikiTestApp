@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * Модель запроса для списка статьей по координатам
+ * Модель запроса для списка статей по координатам
  *
  * @constructor
  * @property body тело запроса

@@ -4,7 +4,7 @@ import ru.niceaska.wikitest.data.models.WikiFePageBodyWrapper
 import ru.niceaska.wikitest.domain.models.WikiGeoPageDomain
 
 /**
- * Конвертер списка статьей по координатам в из дата в домейн слой
+ * Конвертер списка статей по координатам в из дата в домейн слой
  */
 class WikiPlacesConverter {
 

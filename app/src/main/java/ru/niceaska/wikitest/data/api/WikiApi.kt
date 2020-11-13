@@ -12,7 +12,7 @@ import ru.niceaska.wikitest.data.models.WikiImageBodyWrapper
 interface WikiApi {
 
     /**
-     * Получить спиок статьей по координатам
+     * Получить спиок статей по координатам
      *
      * @param queryMap мапа параметром для запроса
      */
@@ -20,7 +20,7 @@ interface WikiApi {
     fun getPlacesList(@QueryMap queryMap: Map<String, String>): Single<WikiFePageBodyWrapper>
 
     /**
-     * Получить спиок заголовокв картинок из статьей
+     * Получить спиок заголовокв картинок из статей
      *
      * @param queryMap мапа параметром для запроса
      */

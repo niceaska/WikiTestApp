@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * Элемень списка статьей по координатам
+ * Элемень списка статей по координатам
  *
  * @constructor
  * @property id айди

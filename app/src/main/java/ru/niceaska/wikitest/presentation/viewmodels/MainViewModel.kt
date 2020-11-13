@@ -32,8 +32,8 @@ class MainViewModel(
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun fetchData() {
-        getListOfPlaces(false)
+    fun fetchData(force: Boolean) {
+        getListOfPlaces(force)
     }
 
     fun getArticleImagesTitles(id: Long) {

@@ -6,11 +6,14 @@ import dagger.Component
 import ru.niceaska.wikitest.di.modules.NetworkModule
 import javax.inject.Singleton
 
+/**
+ * Основной [Component] приложения
+ */
 @Singleton
 @Component(modules = [NetworkModule::class])
 interface AppComponent {
 
-    fun featureComp(): FeatureComponent
+    fun featureComponent(): FeatureComponent
 
     @Component.Builder
     interface Builder {

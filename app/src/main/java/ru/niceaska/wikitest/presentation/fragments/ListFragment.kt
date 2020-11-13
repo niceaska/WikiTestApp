@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.niceaska.wikitest.R
 import ru.niceaska.wikitest.presentation.activities.ImageTitlesViewer
 import ru.niceaska.wikitest.presentation.activities.ShowImageTitlesListener
@@ -15,6 +16,7 @@ import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
 class ListFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,21 +28,30 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler)
+        swipeRefreshLayout = view.findViewById(R.id.swipetorefresh)
         recyclerView?.adapter = ArticlesListAdapter(object : ShowImageTitlesListener {
             override fun showTitles(id: Long) {
-                val view = activity
-                if (view is ImageTitlesViewer) {
-                    view.showImageTitles(id)
+                val mainActivity = activity
+                if (mainActivity is ImageTitlesViewer) {
+                    mainActivity.showImageTitles(id)
                 }
             }
         }).apply {
             submitList(arguments?.getParcelableArrayList(LIST))
+        }
+        swipeRefreshLayout?.setOnRefreshListener {
+            val mainActivity = activity
+            if (mainActivity is SwipeRefreshLayout.OnRefreshListener) {
+                mainActivity.onRefresh()
+            }
+            swipeRefreshLayout?.isRefreshing = false
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         recyclerView = null
+        swipeRefreshLayout = null
     }
 
     companion object {

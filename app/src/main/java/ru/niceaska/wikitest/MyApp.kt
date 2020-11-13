@@ -17,7 +17,7 @@ class MyApp : Application() {
             .build();
     }
 
-    fun initListComponent(): FeatureComponent? = appComponent.featureComp()
+    fun initListComponent(): FeatureComponent? = appComponent.featureComponent()
 
     fun destroyListComponent() {
         featureComponent = null;
