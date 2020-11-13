@@ -8,14 +8,24 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
-import ru.niceaska.wikitest.data.GeoDataSource
 import ru.niceaska.wikitest.data.api.WikiApi
+import ru.niceaska.wikitest.data.datasource.GeoDataSource
 import ru.niceaska.wikitest.data.models.WikiFePageBodyWrapper
 import ru.niceaska.wikitest.data.models.WikiImageData
 import ru.niceaska.wikitest.domain.repository.DataRepository
 
-
-class DataRepositoryImpl(private val geoDataSource: GeoDataSource) : DataRepository {
+/**
+ * Реализация репозитория для получения данных
+ *
+ * @constructor
+ * @property geoDataSource источник данных для геолокации
+ * @property mapper маппер для парсинга жсон
+ *
+ */
+class DataRepositoryImpl(
+    private val geoDataSource: GeoDataSource,
+    private val mapper: ObjectMapper
+) : DataRepository {
 
     private val wikiApi: WikiApi by lazy {
         val retrofit = Retrofit.Builder()
@@ -58,8 +68,9 @@ class DataRepositoryImpl(private val geoDataSource: GeoDataSource) : DataReposit
             "format" to "json"
         )
         return wikiApi.getImagesTitles(queryMap).map {
-            val jsonNode = it.others["$id"]
-            ObjectMapper().readerFor(
+            //  Так себе решение но решила полениться
+            val jsonNode = it.pages["query"]?.get("pages")?.get("$id")?.get("images")
+            mapper.readerFor(
                 object : TypeReference<List<WikiImageData>?>() {}
             ).readValue(jsonNode)
         }

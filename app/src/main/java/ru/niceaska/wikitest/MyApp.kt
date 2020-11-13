@@ -7,7 +7,6 @@ import ru.niceaska.wikitest.di.components.FeatureComponent
 
 class MyApp : Application() {
 
-
     var featureComponent: FeatureComponent? = null
     private lateinit var appComponent: AppComponent
 
@@ -18,10 +17,7 @@ class MyApp : Application() {
             .build();
     }
 
-    fun initListComponent(): FeatureComponent? {
-        featureComponent = appComponent.featureComp()
-        return featureComponent
-    }
+    fun initListComponent(): FeatureComponent? = appComponent.featureComp()
 
     fun destroyListComponent() {
         featureComponent = null;

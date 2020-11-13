@@ -11,6 +11,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun featureComp(): FeatureComponent
+
     @Component.Builder
     interface Builder {
         fun build(): AppComponent

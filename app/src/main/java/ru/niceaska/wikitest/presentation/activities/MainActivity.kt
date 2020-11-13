@@ -3,26 +3,30 @@ package ru.niceaska.wikitest.presentation.activities
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import ru.niceaska.wikitest.MyApp
 import ru.niceaska.wikitest.R
-import ru.niceaska.wikitest.presentation.ViewModelFactory
+import ru.niceaska.wikitest.presentation.fragments.ImagesTitleFragment
 import ru.niceaska.wikitest.presentation.fragments.ListFragment
+import ru.niceaska.wikitest.presentation.fragments.ProgressFragment
+import ru.niceaska.wikitest.presentation.models.createResultObserver
 import ru.niceaska.wikitest.presentation.viewmodels.MainViewModel
+import ru.niceaska.wikitest.presentation.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-
-    lateinit var viewModel: MainViewModel
+class MainActivity : AppCompatActivity(), ImageTitlesViewer {
 
     @Inject
     lateinit var factory: ViewModelFactory
+
+    private lateinit var viewModel: MainViewModel
+    private var isSavedState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,21 +39,47 @@ class MainActivity : AppCompatActivity() {
         initTitle();
         initObservers()
 
-
+        if (savedInstanceState != null) {
+            isSavedState = true
+        }
     }
 
     private fun initObservers() {
-        viewModel.placesList.observe(this, (Observer { list ->
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, ListFragment.newInstance(list))
-                .commit()
-        }))
+        viewModel.resultLiveData.observe(this, createResultObserver(
+            { list ->
+                if (list != null && !isSavedState) {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container, ListFragment.newInstance(list))
+                        .commit()
+                }
+            },
+            { loading -> showProgress(loading) },
+            { showError(it) }
+        ))
+        viewModel.resultImagesTitlesLiveData.observe(this, createResultObserver(
+            { list ->
+                if (list != null && supportFragmentManager.backStackEntryCount == 0) {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .add(R.id.container, ImagesTitleFragment.newInstance(list))
+                        .commit()
+                }
+            },
+            { loading -> showProgress(loading) },
+            { showError(it) }
+        ))
     }
 
     override fun onResume() {
         super.onResume()
         checkGooglePlayServices()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (applicationContext as? MyApp)?.destroyListComponent()
     }
 
     override fun onRequestPermissionsResult(
@@ -67,6 +97,30 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun showImageTitles(id: Long) {
+        viewModel.getArticleImagesTitles(id)
+    }
+
+    private fun showProgress(enable: Boolean) {
+        if (enable) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.container, ProgressFragment(), "progress")
+                .commit()
+        } else {
+            supportFragmentManager
+                .findFragmentByTag("progress")?.let { progressFragment ->
+                    supportFragmentManager.beginTransaction()
+                        .remove(progressFragment)
+                        .commit()
+                }
+        }
+    }
+
+    private fun showError(error: Throwable) = Toast.makeText(
+        this, error.message ?: getString(R.string.unknown_error), Toast.LENGTH_LONG
+    ).show()
 
     private fun checkGooglePlayServices() {
         val googleApiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()

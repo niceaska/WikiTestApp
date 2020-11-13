@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+/**
+ * Элемент списка статьей
+ *
+ * @constructor
+ * @property title заголовой
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WikiImageData @JsonCreator constructor(
-    @param:JsonProperty("pageid")
-    var id: Long,
     @param:JsonProperty("title")
     var title: String,
 )

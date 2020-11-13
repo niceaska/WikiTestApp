@@ -6,11 +6,24 @@ import retrofit2.http.QueryMap
 import ru.niceaska.wikitest.data.models.WikiFePageBodyWrapper
 import ru.niceaska.wikitest.data.models.WikiImageBodyWrapper
 
+/**
+ * Интуфейс апи для сетевых запросов
+ */
 interface WikiApi {
 
+    /**
+     * Получить спиок статьей по координатам
+     *
+     * @param queryMap мапа параметром для запроса
+     */
     @GET("api.php")
     fun getPlacesList(@QueryMap queryMap: Map<String, String>): Single<WikiFePageBodyWrapper>
 
+    /**
+     * Получить спиок заголовокв картинок из статьей
+     *
+     * @param queryMap мапа параметром для запроса
+     */
     @GET("api.php")
     fun getImagesTitles(@QueryMap queryMap: Map<String, String>): Single<WikiImageBodyWrapper>
 }

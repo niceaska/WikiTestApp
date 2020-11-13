@@ -1,4 +1,4 @@
-package ru.niceaska.wikitest.presentation
+package ru.niceaska.wikitest.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

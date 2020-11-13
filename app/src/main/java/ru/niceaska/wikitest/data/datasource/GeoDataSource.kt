@@ -1,4 +1,4 @@
-package ru.niceaska.wikitest.data
+package ru.niceaska.wikitest.data.datasource
 
 import android.annotation.SuppressLint
 import android.location.Location

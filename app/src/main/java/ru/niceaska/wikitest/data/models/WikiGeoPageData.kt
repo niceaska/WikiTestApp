@@ -4,6 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
+/**
+ * Элемень списка статьей по координатам
+ *
+ * @constructor
+ * @property id айди
+ * @property title  заголовок
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WikiGeoPageData @JsonCreator constructor(
     @param:JsonProperty("pageid")

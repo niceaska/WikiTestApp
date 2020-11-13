@@ -8,5 +8,7 @@ import ru.niceaska.wikitest.presentation.activities.MainActivity
 @FeatureScope
 @Subcomponent(modules = [FeatureModule::class])
 interface FeatureComponent {
+
     fun inject(activity: MainActivity)
+
 }
