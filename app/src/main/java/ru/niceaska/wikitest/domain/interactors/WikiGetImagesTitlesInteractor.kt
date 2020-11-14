@@ -16,7 +16,10 @@ class WikiGetImagesTitlesInteractor(
     private val converter: WikiArticleImagesTitlesConverter
 ) {
 
-    fun getArticleTitles(id: Long): Single<List<String>> = repository.getImagesNames(id).map {
+    /**
+     * Получить заголовки картинок по [id] статьи
+     */
+    fun getArticleImageTitles(id: Long): Single<List<String>> = repository.getImagesNames(id).map {
         converter.convert(it)
     }
 }

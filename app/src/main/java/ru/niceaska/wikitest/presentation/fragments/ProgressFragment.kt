@@ -8,7 +8,9 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import ru.niceaska.wikitest.R
 
-
+/**
+ * [Fragment] для отображения [ProgressBar] загрузки
+ */
 class ProgressFragment : Fragment() {
 
     private var progress: ProgressBar? = null

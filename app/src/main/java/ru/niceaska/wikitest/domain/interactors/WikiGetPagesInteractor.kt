@@ -19,6 +19,9 @@ class WikiGetPagesInteractor(
 
     /**
      * Запросить геолокацию и получить список статей
+     *
+     * @param force    определяет будет ли геолокация запрошена принудительно,
+     *                 при false берет последнее известное значение
      */
     fun getPagesList(force: Boolean): Single<List<WikiGeoPageDomain>> =
         repository.getWikiPlacesList(force).map {

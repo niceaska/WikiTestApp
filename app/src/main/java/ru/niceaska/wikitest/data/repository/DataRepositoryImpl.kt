@@ -37,7 +37,7 @@ class DataRepositoryImpl(
     }
 
     @SuppressLint("CheckResult")
-    override fun getWikiPlacesList(force: Boolean): Single<WikiFePageBodyWrapper?> {
+    override fun getWikiPlacesList(force: Boolean): Single<WikiFePageBodyWrapper> {
         if (force) {
             geoDataSource.updateLocation()
         } else {

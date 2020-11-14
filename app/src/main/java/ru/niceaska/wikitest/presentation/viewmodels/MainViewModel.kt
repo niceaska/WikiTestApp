@@ -14,17 +14,27 @@ import ru.niceaska.wikitest.presentation.converters.UIWidgetPlacesConverter
 import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
 import ru.niceaska.wikitest.presentation.models.WikiResult
 
+
+/**
+ * Вью модель для основной активити приложения
+ */
 class MainViewModel(
     private val getPagesInteractor: WikiGetPagesInteractor,
     private val getImagesTitlesInteractor: WikiGetImagesTitlesInteractor,
     private val converter: UIWidgetPlacesConverter
 ) : ViewModel() {
 
+    /**
+     * [LiveData] для предоставления результата [Result] списка статей википедии [WikiGeoPagePresentation]
+     */
     private val _resultListPlacesLiveData: MutableLiveData<WikiResult<List<WikiGeoPagePresentation>, Throwable>> =
         MutableLiveData()
     val resultLiveData: LiveData<WikiResult<List<WikiGeoPagePresentation>, Throwable>>
         get() = _resultListPlacesLiveData
 
+    /**
+     * [LiveData] для предоставления результата [Result] списка заголовоков картинок
+     */
     private val _resultImagesTitlesLiveData: MutableLiveData<WikiResult<List<String>, Throwable>> =
         MutableLiveData()
     val resultImagesTitlesLiveData: LiveData<WikiResult<List<String>, Throwable>>
@@ -32,12 +42,21 @@ class MainViewModel(
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+    /**
+     * Запросить геолокацию и получить список статей
+     *
+     * @param force    определяет будет ли геолокация запрошена принудительно,
+     *                 при false берет последнее известное значение
+     */
     fun fetchData(force: Boolean) {
         getListOfPlaces(force)
     }
 
+    /**
+     * Получить список статей по [id]
+     */
     fun getArticleImagesTitles(id: Long) {
-        getImagesTitlesInteractor.getArticleTitles(id)
+        getImagesTitlesInteractor.getArticleImageTitles(id)
             .doOnSubscribe { _resultImagesTitlesLiveData.postValue(WikiResult.Loading(true)) }
             .doFinally { _resultImagesTitlesLiveData.postValue(WikiResult.Loading(false)) }
             .observeOn(AndroidSchedulers.mainThread())

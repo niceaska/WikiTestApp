@@ -10,13 +10,25 @@ import ru.niceaska.wikitest.data.exceptions.UpdateLocationException
 import ru.niceaska.wikitest.data.models.GeoPoint
 
 
+/**
+ * Источник данных о геолокации
+ *
+ * @constructor
+ * @property [FusedLocationProviderClient] провайдер геолокации
+ */
 @SuppressLint("MissingPermission")
 class GeoDataSource(
     private val locationProvider: FusedLocationProviderClient
 ) {
 
+    /**
+     * [PublishSubject] данных о геолокации
+     */
     val locationData: PublishSubject<GeoPoint> = PublishSubject.create()
 
+    /**
+     * Запрашивает последнюю известную геолокацию
+     */
     fun requestLocation() =
         locationProvider.lastLocation.addOnSuccessListener(
             creteSuccessListener(
@@ -24,6 +36,9 @@ class GeoDataSource(
             )
         )
 
+    /**
+     * Обновляет последнюю известную геолокацию
+     */
     fun updateLocation() = locationProvider
         .getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null)
         .addOnSuccessListener(creteSuccessListener(UpdateLocationException()))

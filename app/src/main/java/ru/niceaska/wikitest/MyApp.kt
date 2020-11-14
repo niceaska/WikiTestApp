@@ -7,7 +7,10 @@ import ru.niceaska.wikitest.di.components.FeatureComponent
 
 class MyApp : Application() {
 
-    var featureComponent: FeatureComponent? = null
+    /**
+     * Фичевый компонент приложения
+     */
+    private var featureComponent: FeatureComponent? = null
     private lateinit var appComponent: AppComponent
 
     override fun onCreate() {
@@ -17,9 +20,15 @@ class MyApp : Application() {
             .build();
     }
 
-    fun initListComponent(): FeatureComponent? = appComponent.featureComponent()
+    /**
+     * Инициализировать [FeatureComponent] приложения
+     */
+    fun initFeatureComponent(): FeatureComponent? = appComponent.featureComponent()
 
-    fun destroyListComponent() {
+    /**
+     * Уничтожить [FeatureComponent] приложения
+     */
+    fun destroyFeatureComponent() {
         featureComponent = null;
     }
 }

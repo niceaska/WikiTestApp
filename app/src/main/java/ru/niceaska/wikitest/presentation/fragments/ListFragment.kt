@@ -13,6 +13,9 @@ import ru.niceaska.wikitest.presentation.activities.ShowImageTitlesListener
 import ru.niceaska.wikitest.presentation.adapters.ArticlesListAdapter
 import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
 
+/**
+ * [Fragment] для отображения списка заголовков статей
+ */
 class ListFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
@@ -56,6 +59,12 @@ class ListFragment : Fragment() {
 
     companion object {
         private const val LIST = "list"
+
+        /**
+         * Создает новый инстанс [ListFragment]
+         *
+         * @param list лист статей Википедии
+         */
         fun newInstance(list: List<WikiGeoPagePresentation>): Fragment {
             val listFragment = ListFragment()
             val bundle: Bundle = Bundle().apply {

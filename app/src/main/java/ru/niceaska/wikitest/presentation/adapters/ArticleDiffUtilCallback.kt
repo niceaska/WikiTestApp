@@ -3,6 +3,9 @@ package ru.niceaska.wikitest.presentation.adapters
 import androidx.recyclerview.widget.DiffUtil
 import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
 
+/**
+ * [DiffUtil.ItemCallback] для списка статей Википедии
+ */
 class ArticleDiffUtilCallback : DiffUtil.ItemCallback<WikiGeoPagePresentation>() {
 
     override fun areItemsTheSame(

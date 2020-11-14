@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.niceaska.wikitest.R
 
+/**
+ * [Fragment] для отображения списка заголовков картинок
+ */
 class ImagesTitleFragment : Fragment() {
 
     override fun onCreateView(
@@ -26,6 +29,12 @@ class ImagesTitleFragment : Fragment() {
 
     companion object {
         private const val STRINGS = "strings"
+
+        /**
+         * Создает новый инстанс [ImagesTitleFragment]
+         *
+         * @param list лист [String] спика заголовков картинок
+         */
         fun newInstance(list: List<String>): Fragment {
             val fragment = ImagesTitleFragment()
             val bundle: Bundle = Bundle().apply {

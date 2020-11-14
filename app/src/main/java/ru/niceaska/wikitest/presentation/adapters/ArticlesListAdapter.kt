@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.niceaska.wikitest.presentation.activities.ShowImageTitlesListener
 import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
 
+/**
+ * [ListAdapter] для списка статей Википедии
+ *
+ * @constructor
+ * @property listener слушатель нажатий для отображения списка картинок статьи
+ */
 class ArticlesListAdapter(private val listener: ShowImageTitlesListener) :
     ListAdapter<WikiGeoPagePresentation, ArticlesListAdapter.ArticlesViewHolder>(
         ArticleDiffUtilCallback(),

@@ -21,6 +21,9 @@ import ru.niceaska.wikitest.presentation.viewmodels.MainViewModel
 import ru.niceaska.wikitest.presentation.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
+/**
+ * Основная активти [ActivityCompat] приложения
+ */
 class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        (applicationContext as? MyApp)?.initListComponent()?.inject(this)
+        (applicationContext as? MyApp)?.initFeatureComponent()?.inject(this)
 
         viewModel = ViewModelProvider(this, factory)
             .get(MainViewModel::class.java)
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.
 
     override fun onDestroy() {
         super.onDestroy()
-        (applicationContext as? MyApp)?.destroyListComponent()
+        (applicationContext as? MyApp)?.destroyFeatureComponent()
     }
 
     override fun onRefresh() {
@@ -112,11 +115,11 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.
         if (enable) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.container, ProgressFragment(), "progress")
+                .add(R.id.container, ProgressFragment(), PROGRESS)
                 .commit()
         } else {
             supportFragmentManager
-                .findFragmentByTag("progress")?.let { progressFragment ->
+                .findFragmentByTag(PROGRESS)?.let { progressFragment ->
                     supportFragmentManager.beginTransaction()
                         .remove(progressFragment)
                         .commit()
@@ -167,6 +170,7 @@ class MainActivity : AppCompatActivity(), ImageTitlesViewer, SwipeRefreshLayout.
     }
 
     companion object {
+        private const val PROGRESS = "progress"
         private const val REQUEST_CODE = 101
     }
 }
