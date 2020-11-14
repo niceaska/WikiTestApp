@@ -10,14 +10,14 @@ import ru.niceaska.wikitest.presentation.models.WikiGeoPagePresentation
  */
 class UIWidgetPlacesConverterTest {
 
-    private val data: List<WikiGeoPageDomain> = listOf(
+    private val domain: List<WikiGeoPageDomain> = listOf(
         WikiGeoPageDomain(0, TITLE1),
         WikiGeoPageDomain(1, TITLE2)
     )
 
     @Test
     fun convert() {
-        Truth.assertThat(UIWidgetPlacesConverter().convert(data)).isEqualTo(
+        Truth.assertThat(UIWidgetPlacesConverter().convert(domain)).isEqualTo(
             listOf(
                 WikiGeoPagePresentation(0, TITLE1), WikiGeoPagePresentation(1, TITLE2)
             )
